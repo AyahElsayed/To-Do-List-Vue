@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>todolist using Vue</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div id="elzero-app" class="container">
+      <form>
+        <input placeholder="Type Your Task" type="text" v-model="taskText" />
+        <button :disabled="!taskText" @click.prevent="addTask">Add Task</button>
+        <button
+          @click.prevent="deleteAll"
+          class="delete-all"
+          v-if="tasks.length > 1"
+          >Delete All</button
+        >
+      </form>
+      <div class="tasks-list" v-for="(task, index) in tasks">
+        <div
+          :style="{ 'text-decoration': task.done ? 'line-through' : '' }"
+          @click="task.done = !task.done"
+          class="task-box"
+        >
+          {{ task.words }}
+        </div>
+        <div @click="deleteTask(index)" class="delete"> Delete </div>
+      </div>
+    </div>
+
+    <script src="js/vue.js"></script>
+    <script>
+      var app = new Vue({
+        el: "#elzero-app",
+        data: {
+          tasks: [],
+          taskText: "",
+        },
+        methods: {
+          addTask: function () {
+            this.tasks.push({ words: this.taskText, done: false });
+            this.taskText = "";
+          },
+          deleteTask: function (index) {
+            this.tasks.splice(index, 1);
+          },
+          deleteAll: function () {
+            this.tasks = [];
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
